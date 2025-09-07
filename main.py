@@ -9,11 +9,14 @@ import os
 import json
 import gspread
 from google.oauth2.service_account import Credentials
+from dotenv import load_dotenv
+load_dotenv()
 
 # === НАСТРОЙКИ ===
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 SPREADSHEET_NAME = "Name video Oleh Owl"
 ALLOWED_USER_ID = 7749330261
+# print("Токен бота:", BOT_TOKEN)
 
 # === Google Sheets Авторизация ===
 scope = [
@@ -22,8 +25,8 @@ scope = [
 ]
 google_creds = os.getenv("GOOGLE_CREDS")
 
-creds = Credentials.from_service_account_file("credentials.json", scopes=scope)
-client = gspread.authorize(creds)
+service_account_info = json.loads(os.environ["GOOGLE_CREDS"])
+creds = Credentials.from_service_account_info(service_account_info)
 sheet = client.open(SPREADSHEET_NAME).sheet1  # Работаем с первым листом
 
 # === Инициализация бота ===
