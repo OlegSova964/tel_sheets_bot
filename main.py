@@ -23,10 +23,9 @@ scope = [
     "https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/drive"
 ]
-google_creds = os.getenv("GOOGLE_CREDS")
+creds = Credentials.from_service_account_file("credentials.json", scopes=scope)
+client = gspread.authorize(creds)
 
-service_account_info = json.loads(os.environ["GOOGLE_CREDS"])
-creds = Credentials.from_service_account_info(service_account_info)
 sheet = client.open(SPREADSHEET_NAME).sheet1  # Работаем с первым листом
 
 # === Инициализация бота ===
